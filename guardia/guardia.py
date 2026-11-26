@@ -555,7 +555,7 @@ def build_galaxy(g):
     dust = g.random(N) < 0.18
 
     def f(t):
-        ang = arm * 2 * math.pi / 3 + np.log(r + 0.15) * 2.7 + noise * 0.3 / (r + 0.35) + t * 0.45 / (r + 0.4)
+        ang = arm * 2 * math.pi / 3 + np.log(r + 0.15) * 2.7 + noise * 0.2 / (r + 0.35) + t * 0.45 / (r + 0.4)
         P = np.stack([r * np.cos(ang), yj * 0.05 * (1 - r / 1.7), r * np.sin(ang)], -1)
         P[:core_n] = D[:core_n] * np.abs(yj[:core_n, None]) * 0.13 * np.array([1, 0.55, 1])
         k = np.clip(r / 1.55, 0, 1)[:, None]
@@ -566,9 +566,9 @@ def build_galaxy(g):
         col[:core_n] = [1.0, 0.85, 0.95]
         glow = 0.2 + 1.1 * np.exp(-r * 3) + knot_ * (0.7 + 0.5 * np.sin(t * 5 + noise * 4))
         glow[:core_n] = 1.0
-        tilt = 1.15 - 0.55 * float(sms(GALAXY, GALAXY + 6.5, t))
+        tilt = 0.75 + 0.45 * float(sms(GALAXY, GALAXY + 6.5, t))
         R = rot(0.15 * t, tilt, 0.3)
-        zoom = 0.9 + 0.15 * float(sms(GALAXY, GALAXY + 6.5, t))
+        zoom = 0.8 + 0.1 * float(sms(GALAXY, GALAXY + 6.5, t))
         return P @ R.T * zoom, np.tile([0, 1.0, 0], (N, 1)) @ R.T, col, glow
     return f
 
